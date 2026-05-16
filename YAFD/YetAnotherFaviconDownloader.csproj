@@ -85,7 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PlgxBuildTasks">
-      <Version>1.1.1-beta</Version>
+      <Version>1.1.2-beta</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

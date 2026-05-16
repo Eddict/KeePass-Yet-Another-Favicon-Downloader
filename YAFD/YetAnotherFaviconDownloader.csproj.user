@@ -4,4 +4,8 @@
     <StartAction>Program</StartAction>
     <StartProgram>$(MSBuildProjectDirectory)\bin\$(Configuration)\KeePass.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>$(MSBuildProjectDirectory)\bin\$(Configuration)\KeePass.exe</StartProgram>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
 </Project>

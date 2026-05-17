@@ -11,12 +11,16 @@ namespace YetAnotherFaviconDownloader
         private static readonly List<Provider> providers = new List<Provider>();
         private static readonly Provider customProvider = new Provider(CustomURLName, null);
 
+        // Top Favicon APIs for High-Load Use Cases in 2025
+        // https://ithy.com/article/top-favicon-apis-hwb5am2x
         static ProviderList()
         {
             providers.Add(new Provider("None (Default)", null));
             providers.Add(new Provider("DuckDuckGo", "https://icons.duckduckgo.com/ip3/{URL:HOST}.ico"));
-            providers.Add(new Provider("Favicon Kit", "https://api.faviconkit.com/{URL:HOST}/{YAFD:ICON_SIZE}"));
-            providers.Add(new Provider("Google", "https://www.google.com/s2/favicons?domain={URL:SCM}://{URL:HOST}&sz={YAFD:ICON_SIZE}"));
+            providers.Add(new Provider("Favicone", "https://favicone.com/{URL:HOST}?s={YAFD:ICON_SIZE}"));
+            providers.Add(new Provider("Google", "https://www.google.com/s2/favicons?domain={URL:HOST}&sz={YAFD:ICON_SIZE}"));
+            providers.Add(new Provider("Grabicon", "https://grabicon.p.rapidapi.com/icon?domain={URL:HOST}&size={YAFD:ICON_SIZE}"));
+            providers.Add(new Provider("Icon Horse", "https://icon.horse/icon/{URL:HOST}"));
             providers.Add(new Provider("Yandex", "https://favicon.yandex.net/favicon/{URL:HOST}"));
             providers.Add(customProvider);
         }

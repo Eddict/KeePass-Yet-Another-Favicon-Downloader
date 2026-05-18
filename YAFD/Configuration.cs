@@ -4,7 +4,7 @@ namespace YetAnotherFaviconDownloader
 {
     public sealed class Configuration
     {
-        private AceCustomConfig config;
+        private readonly AceCustomConfig config;
 
         /// <summary>
         /// Plugin name used on settings to avoid collisions
@@ -36,10 +36,10 @@ namespace YetAnotherFaviconDownloader
         private int? m_maximumIconSize = null;
 
         /// <summary>
-        /// Custom download provider
+        /// Download provider
         /// </summary>
-        private const string customDownloadProvider = pluginName + "CustomDownloadProvider";
-        private string m_customDownloadProvider = null;
+        private const string downloadProvider = pluginName + "DownloadProvider";
+        private string m_downloadProvider = null;
 
         public Configuration(AceCustomConfig aceCustomConfig)
         {
@@ -111,20 +111,20 @@ namespace YetAnotherFaviconDownloader
             config.SetLong(maximumIconSize, value);
         }
 
-        public string GetCustomDownloadProvider()
+        public string GetDownloadProvider()
         {
-            if (string.IsNullOrEmpty(m_customDownloadProvider))
+            if (string.IsNullOrEmpty(m_downloadProvider))
             {
-                m_customDownloadProvider = config.GetString(customDownloadProvider, "");
+                m_downloadProvider = config.GetString(downloadProvider, "");
             }
 
-            return m_customDownloadProvider;
+            return m_downloadProvider;
         }
 
-        public void SetCustomDownloadProvider(string value)
+        public void SetDownloadProvider(string value)
         {
-            m_customDownloadProvider = value;
-            config.SetString(customDownloadProvider, value);
+            m_downloadProvider = value;
+            config.SetString(downloadProvider, value);
         }
     }
 }

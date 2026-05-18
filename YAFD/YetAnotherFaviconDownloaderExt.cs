@@ -43,12 +43,10 @@ namespace YetAnotherFaviconDownloader
         // Entry Context Menu
         private ToolStripSeparator entrySeparator;
         private ToolStripMenuItem entryDownloadFaviconsItem;
-        private ToolStripMenuItem entryDownloadFaviconsCustomItem;
 
         // Group Context Menu
         private ToolStripSeparator groupSeparator;
         private ToolStripMenuItem groupDownloadFaviconsItem;
-        private ToolStripMenuItem groupDownloadFaviconsCustomItem;
 
         // Tools Menu
         private ToolStripSeparator toolsMenuSeparator;
@@ -90,20 +88,18 @@ namespace YetAnotherFaviconDownloader
 
             // Add Entry Context menu items
             entrySeparator = new ToolStripSeparator();
-            entryDownloadFaviconsItem = new ToolStripMenuItem("Download &Favicons", menuImage, DownloadFaviconsEntry_Click);
-            entryDownloadFaviconsCustomItem = new ToolStripMenuItem("Download &Favicons (Custom)", menuImage, DownloadFaviconsCustomEntry_Click);
+            var providerUrl = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
+            var providerName = ProviderList.GetProviderNameByUrl(providerUrl);
+            entryDownloadFaviconsItem = new ToolStripMenuItem(string.Format("Download &Favicons [{0}]", providerName),menuImage,DownloadFaviconsEntry_Click);
             pluginHost.MainWindow.EntryContextMenu.Items.Add(entrySeparator);
             pluginHost.MainWindow.EntryContextMenu.Items.Add(entryDownloadFaviconsItem);
-            pluginHost.MainWindow.EntryContextMenu.Items.Add(entryDownloadFaviconsCustomItem);
             pluginHost.MainWindow.EntryContextMenu.Opening += EntryContextMenu_Opening;
 
             // Add Group Context menu items
             groupSeparator = new ToolStripSeparator();
             groupDownloadFaviconsItem = new ToolStripMenuItem("Download Fa&vicons (recursively)", menuImage, DownloadFaviconsGroup_Click);
-            groupDownloadFaviconsCustomItem = new ToolStripMenuItem("Download Fa&vicons (Custom) (recursively)", menuImage, DownloadFaviconsCustomGroup_Click);
             pluginHost.MainWindow.GroupContextMenu.Items.Add(groupSeparator);
             pluginHost.MainWindow.GroupContextMenu.Items.Add(groupDownloadFaviconsItem);
-            pluginHost.MainWindow.GroupContextMenu.Items.Add(groupDownloadFaviconsCustomItem);
             pluginHost.MainWindow.GroupContextMenu.Opening += GroupContextMenu_Opening;
 
             //////////////////////////////////////////////////////////////////////////
@@ -111,16 +107,22 @@ namespace YetAnotherFaviconDownloader
             // Tools -> YAFD -> SubItems
 
             // Automatic prefix URLs with http(s)://
-            toolsSubItemsPrefixURLsItem = new ToolStripMenuItem("Automatic prefix URLs with http(s)://", null, PrefixURLsMenu_Click);  // TODO: i18n?
-            toolsSubItemsPrefixURLsItem.Checked = Config.GetAutomaticPrefixURLs();
+            toolsSubItemsPrefixURLsItem = new ToolStripMenuItem("Automatic prefix URLs with http(s)://", null, PrefixURLsMenu_Click)
+            {
+                Checked = Config.GetAutomaticPrefixURLs()
+            };  // TODO: i18n?
 
             // Use title field if URL field is empty
-            toolsSubItemsTitleFieldItem = new ToolStripMenuItem("Use title field if URL field is empty", null, TitleFieldMenu_Click);  // TODO: i18n?
-            toolsSubItemsTitleFieldItem.Checked = Config.GetUseTitleField();
+            toolsSubItemsTitleFieldItem = new ToolStripMenuItem("Use title field if URL field is empty", null, TitleFieldMenu_Click)
+            {
+                Checked = Config.GetUseTitleField()
+            };  // TODO: i18n?
 
             // Update last modified date when adding/updating icons
-            toolsSubItemsUpdateModifiedItem = new ToolStripMenuItem("Update entry last modification time", null, LastModifiedMenu_Click);  // TODO: i18n?
-            toolsSubItemsUpdateModifiedItem.Checked = Config.GetUpdateLastModified();
+            toolsSubItemsUpdateModifiedItem = new ToolStripMenuItem("Update entry last modification time", null, LastModifiedMenu_Click)
+            {
+                Checked = Config.GetUpdateLastModified()
+            };  // TODO: i18n?
 
             // Tools -> YAFD -> Maximum icon size -> SubItems
             toolsMaxIconSizeSubItems = new List<ToolStripMenuItem>();
@@ -142,7 +144,7 @@ namespace YetAnotherFaviconDownloader
             toolsSubItemsMaximumIconSizeItems = new ToolStripMenuItem("Maximum icon size", (Image)pluginHost.Resources.GetObject("B16x16_Edit"), toolsMaxIconSizeSubItems.ToArray());  // TODO: i18n?
 
             // Custom download provider
-            toolsSubItemsDownloadProviderItem = new ToolStripMenuItem("Custom download provider", (Image)pluginHost.Resources.GetObject("B16x16_WWW"), ToolsSubItemsDownloadProviderItem_Click);
+            toolsSubItemsDownloadProviderItem = new ToolStripMenuItem("Select Download provider...", (Image)pluginHost.Resources.GetObject("B16x16_WWW"), ToolsSubItemsDownloadProviderItem_Click);
 
             //
 
@@ -176,16 +178,20 @@ namespace YetAnotherFaviconDownloader
 
         private void EntryContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var provider = Config.GetCustomDownloadProvider();
-            bool visible = provider != string.Empty;
-            entryDownloadFaviconsCustomItem.Visible = visible;
+            //var provider = Config.GetDownloadProvider();
+            //// Show menu if provider is empty (default) or matches 'None (Default)'
+            //var foundProvider = ProviderList.FindByURL(provider);
+            //bool visible = string.IsNullOrEmpty(provider) || (foundProvider != null && foundProvider.Name == "None (Default)");
+            //entryDownloadFaviconsItem.Visible = visible;
         }
 
         private void GroupContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var provider = Config.GetCustomDownloadProvider();
-            bool visible = provider != string.Empty;
-            groupDownloadFaviconsCustomItem.Visible = visible;
+            //var provider = Config.GetDownloadProvider();
+            //// Show menu if provider is empty (default) or matches 'None (Default)'
+            //var foundProvider = ProviderList.FindByURL(provider);
+            //bool visible = string.IsNullOrEmpty(provider) || (foundProvider != null && foundProvider.Name == "None (Default)");
+            //groupDownloadFaviconsItem.Visible = visible;
         }
 
         public override void Terminate()
@@ -221,15 +227,15 @@ namespace YetAnotherFaviconDownloader
         }
 
         #region MenuItem EventHandler
-        private void downloadFaviconsCustomEntry_Click(object sender, EventArgs e, bool customProvider)
+        private void DownloadFaviconsEntry_Click(object sender, EventArgs e)
         {
             Util.Log("Entry Context Menu -> Download Favicons clicked");
 
             PwEntry[] entries = pluginHost.MainWindow.GetSelectedEntries();
-            DownloadFavicons(entries, customProvider);
+            DownloadFavicons(entries);
         }
 
-        private void downloadFaviconsGroup_Click(object sender, EventArgs e, bool customProvider)
+        private void DownloadFaviconsGroup_Click(object sender, EventArgs e)
         {
             Util.Log("Group Context Menu -> Download Favicons clicked");
 
@@ -250,27 +256,7 @@ namespace YetAnotherFaviconDownloader
 
             // Copy PwObjectList<PwEntry> to PwEntry[]
             PwEntry[] entries = entriesInGroup.CloneShallowToList().ToArray();
-            DownloadFavicons(entries, customProvider);
-        }
-
-        private void DownloadFaviconsEntry_Click(object sender, EventArgs e)
-        {
-            downloadFaviconsCustomEntry_Click(sender, e, false);
-        }
-
-        private void DownloadFaviconsGroup_Click(object sender, EventArgs e)
-        {
-            downloadFaviconsGroup_Click(sender, e, false);
-        }
-
-        private void DownloadFaviconsCustomEntry_Click(object sender, EventArgs e)
-        {
-            downloadFaviconsCustomEntry_Click(sender, e, true);
-        }
-
-        private void DownloadFaviconsCustomGroup_Click(object sender, EventArgs e)
-        {
-            downloadFaviconsGroup_Click(sender, e, true);
+            DownloadFavicons(entries);
         }
 
         private void PrefixURLsMenu_Click(object sender, EventArgs e)
@@ -362,7 +348,7 @@ namespace YetAnotherFaviconDownloader
 #endif
         #endregion
 
-        private void DownloadFavicons(PwEntry[] entries, bool customProvider)
+        private void DownloadFavicons(PwEntry[] entries)
         {
             if (entries == null || entries.Length == 0)
             {
@@ -372,7 +358,7 @@ namespace YetAnotherFaviconDownloader
 
             // Run all the work in a new thread
             FaviconDialog downloader = new FaviconDialog(pluginHost);
-            downloader.Run(entries, customProvider);
+            downloader.Run(entries);
         }
     }
 }

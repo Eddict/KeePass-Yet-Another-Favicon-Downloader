@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 namespace YetAnotherFaviconDownloader
 {
     [System.ComponentModel.DesignerCategory("")]
+    /// <summary>
+    /// FaviconDownloader supports adding extra headers to outgoing requests.
+    /// </summary>
     public sealed class FaviconDownloader : WebClient
     {
         // Proxy
@@ -25,7 +28,9 @@ namespace YetAnotherFaviconDownloader
 
         // URI after redirection
         private Uri responseUri;
-        private CookieContainer cookieContainer;
+        private readonly CookieContainer cookieContainer;
+        // Extra headers to add to each request
+        private Dictionary<string, string> _extraHeaders;
 
         static FaviconDownloader()
         {
@@ -84,6 +89,25 @@ namespace YetAnotherFaviconDownloader
         public FaviconDownloader()
         {
             cookieContainer = new CookieContainer();
+            _extraHeaders = new Dictionary<string, string>();
+        }
+
+        /// <summary>
+        /// Gets or sets extra headers for outgoing requests.
+        /// </summary>
+        public Dictionary<string, string> ExtraHeaders
+        {
+            get { return _extraHeaders; }
+            set { _extraHeaders = value ?? new Dictionary<string, string>(); }
+        }
+
+        /// <summary>
+        /// Adds or updates an extra header for outgoing requests.
+        /// </summary>
+        public void SetExtraHeader(string name, string value)
+        {
+            if (string.IsNullOrEmpty(name)) return;
+            _extraHeaders[name] = value;
         }
 
         public byte[] GetIcon(string url)
@@ -205,15 +229,15 @@ namespace YetAnotherFaviconDownloader
             throw new FaviconDownloaderException(FaviconDownloaderExceptionStatus.NotFound);
         }
 
-        public byte[] GetIconCustomProvider(string url)
+        public byte[] GetIconProvider(string url)
         {
             // Get the hostname from the requested URL
             var baseUri = GetValidUri(url);
             string hostname = baseUri.Host;
             string scheme = baseUri.Scheme;
 
-            // Custom provider settings
-            var providerURL = YetAnotherFaviconDownloaderExt.Config.GetCustomDownloadProvider();
+            // Provider settings
+            var providerURL = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
             var iconSize = YetAnotherFaviconDownloaderExt.Config.GetMaximumIconSize().ToString();
 
             // Follows KeePass placeholders convention
@@ -226,7 +250,7 @@ namespace YetAnotherFaviconDownloader
 
             Uri address = new Uri(providerURL);
 
-            Util.Log("CustomProvider: {0} => {1}", url, providerURL);
+            Util.Log("Provider: {0} => {1}", url, providerURL);
 
             try
             {
@@ -300,6 +324,27 @@ namespace YetAnotherFaviconDownloader
             request.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8";
             request.Headers.Add(HttpRequestHeader.AcceptLanguage, "en-US,en;q=0.9");
             request.AutomaticDecompression |= DecompressionMethods.GZip | DecompressionMethods.Deflate; // Accept-Encoding
+
+            // Add extra headers if any
+            if (_extraHeaders != null)
+            {
+                foreach (var kvp in _extraHeaders)
+                {
+                    // Avoid duplicate headers
+                    if (!string.IsNullOrEmpty(kvp.Key) && !string.IsNullOrEmpty(kvp.Value))
+                    {
+                        // Special handling for Content-Type
+                        if (string.Equals(kvp.Key, "Content-Type", StringComparison.OrdinalIgnoreCase))
+                        {
+                            request.Headers.Add(HttpRequestHeader.ContentType, kvp.Value);
+                        }
+                        else
+                        {
+                            request.Headers.Add(kvp.Key, kvp.Value);
+                        }
+                    }
+                }
+            }
 
             return request;
         }

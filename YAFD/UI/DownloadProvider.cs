@@ -2,6 +2,7 @@
 using KeePass.Resources;
 using KeePassLib.Utility;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace YetAnotherFaviconDownloader.UI
@@ -14,6 +15,7 @@ namespace YetAnotherFaviconDownloader.UI
         public DownloadProvider(IPluginHost host)
         {
             InitializeComponent();
+
             // Translate some stuff
             btnSave.Text = KPRes.Save;
             btnCancel.Text = KPRes.Cancel;
@@ -26,7 +28,7 @@ namespace YetAnotherFaviconDownloader.UI
             cboProviderList.Items.AddRange(ProviderList.GetDefaultList());
 
             // Lookup provider on list
-            var url = YetAnotherFaviconDownloaderExt.Config.GetCustomDownloadProvider();
+            var url = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
             var provider = ProviderList.FindByURL(url);
             if (provider == null)
             {
@@ -44,8 +46,8 @@ namespace YetAnotherFaviconDownloader.UI
                     return;
                 }
 
-                // Custom provider
-                ProviderList.SetCustomProviderURL(url);
+                // Provider
+                ProviderList.SetProviderURL(url);
                 cboProviderList.SelectedIndex = cboProviderList.Items.Count - 1;
                 return;
             }
@@ -61,8 +63,8 @@ namespace YetAnotherFaviconDownloader.UI
             // Local (default)
             if (obj.SelectedIndex <= 0)
             {
-                txtCustomProviderURL.ReadOnly = true;
-                txtCustomProviderURL.Text = "";
+                txtProviderURL.ReadOnly = true;
+                txtProviderURL.Text = "";
                 chkAccept.Enabled = false;
                 btnSave.Enabled = true;
             }
@@ -71,8 +73,8 @@ namespace YetAnotherFaviconDownloader.UI
             {
                 var provider = obj.SelectedItem as Provider;
 
-                txtCustomProviderURL.ReadOnly = provider.Name != ProviderList.CustomURLName;
-                txtCustomProviderURL.Text = provider.URL;
+                txtProviderURL.ReadOnly = provider.Name != ProviderList.URLName;
+                txtProviderURL.Text = provider.URL;
                 chkAccept.Enabled = true;
                 btnSave.Enabled = false;
             }
@@ -87,19 +89,19 @@ namespace YetAnotherFaviconDownloader.UI
         private void btnSave_Click(object sender, EventArgs e)
         {
             var provider = cboProviderList.SelectedItem as Provider;
-            if (provider.Name == ProviderList.CustomURLName)
+            if (provider.Name == ProviderList.URLName)
             {
-                var url = txtCustomProviderURL.Text;
+                var url = txtProviderURL.Text;
 
                 if (!ProviderList.IsValidURL(url))
                 {
                     MessageService.ShowWarning(url, KPRes.InvalidUrl);
                     return;
                 }
-                ProviderList.SetCustomProviderURL(url);
+                ProviderList.SetProviderURL(url);
             }
 
-            YetAnotherFaviconDownloaderExt.Config.SetCustomDownloadProvider(provider.URL);
+            YetAnotherFaviconDownloaderExt.Config.SetDownloadProvider(provider.URL);
 
             Close();
         }

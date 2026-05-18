@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
+using YetAnotherFaviconDownloader.UI;
 
 namespace YetAnotherFaviconDownloader
 {
@@ -60,17 +61,14 @@ namespace YetAnotherFaviconDownloader
             pluginHost.MainWindow.UIBlockInteraction(true);
         }
 
-        public void Run(PwEntry[] entries, bool customProvider)
+        public void Run(PwEntry[] entries)
         {
             this.entries = entries;
-            bgWorker.RunWorkerAsync(customProvider);
+            bgWorker.RunWorkerAsync();
         }
 
         private void BgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            // Custom provider download (argument)
-            bool customProvider = (bool)e.Argument;
-
             // Progress information
             ProgressInfo progress = new ProgressInfo(entries.Length);
 
@@ -80,6 +78,7 @@ namespace YetAnotherFaviconDownloader
             // Set up proxy information for all WebClients
             FaviconDownloader.Proxy = Util.GetKeePassProxy();
 
+            var providerURL = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
             using (ManualResetEvent waiter = new ManualResetEvent(false))
             {
                 for (int j = 0; j < entries.Length; j++)
@@ -122,11 +121,19 @@ namespace YetAnotherFaviconDownloader
                                 {
                                     try
                                     {
+                                        if (providerURL.Contains("grabicon"))
+                                        {
+                                            // Add a custom header (e.g., for Grabicon/RapidAPI)
+                                            fd.SetExtraHeader("Content-Type", "application/json");
+                                            fd.SetExtraHeader("x-rapidapi-host", "grabicon.p.rapidapi.com");
+                                            fd.SetExtraHeader("x-rapidapi-key", ""); // TODO: Add RapidAPI key here to use Grabicon as a provider
+                                        }
+
                                         byte[] data = null;
                                         // Download favicon
-                                        if (customProvider)
+                                        if (!string.IsNullOrEmpty(providerURL))
                                         {
-                                            data = fd.GetIconCustomProvider(url);
+                                            data = fd.GetIconProvider(url);
                                         }
                                         else
                                         {
@@ -296,6 +303,7 @@ namespace YetAnotherFaviconDownloader
             }
 
             // Update entries (avoid cross-thread operation with other plugins)
+            bool setModified = false;
             foreach (PwEntry entry in entries)
             {
                 // You can't touch this (oh-oh oh oh oh-oh-oh)
@@ -303,6 +311,7 @@ namespace YetAnotherFaviconDownloader
 
                 // Save it
                 entry.Touch(YetAnotherFaviconDownloaderExt.Config.GetUpdateLastModified(), false);
+                setModified = true;
             }
 
             // Unblock UI
@@ -310,7 +319,7 @@ namespace YetAnotherFaviconDownloader
 
             // Refresh icons
             pluginHost.MainWindow.RefreshEntriesList();
-            pluginHost.MainWindow.UpdateUI(false, null, false, null, false, null, true);
+            pluginHost.MainWindow.UpdateUI(false, null, false, null, false, null, setModified);
 
             logger.EndLogging();
 

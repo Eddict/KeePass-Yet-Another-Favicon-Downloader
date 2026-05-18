@@ -1,0 +1,3 @@
+[submodule "KeeTheme"]
+	path = KeeTheme
+	url = https://github.com/Eddict/KeeTheme.git

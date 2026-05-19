@@ -3,9 +3,16 @@
   <PropertyGroup>
     <StartAction>Program</StartAction>
     <StartProgram>$(MSBuildProjectDirectory)\bin\$(Configuration)\KeePass.exe</StartProgram>
+    <ActiveDebugProfile>Start external program</ActiveDebugProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartProgram>$(MSBuildProjectDirectory)\bin\$(Configuration)\KeePass.exe</StartProgram>
     <StartAction>Program</StartAction>
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="UI\DownloadProvider.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

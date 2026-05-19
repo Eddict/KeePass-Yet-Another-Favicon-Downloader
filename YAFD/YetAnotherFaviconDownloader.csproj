@@ -16,7 +16,7 @@
     <Reference Include="KeePass">
       <HintPath Condition="Exists('C:\Program Files\KeePass Password Safe 2\KeePass.exe')">C:\Program Files\KeePass Password Safe 2\KeePass.exe</HintPath>
       <HintPath Condition="Exists('C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe')">C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe</HintPath>
-      <HintPath Condition="Exists('C:\Program Files (x86)\KeePass\KeePass.exe')">C:\Program Files (x86)\KeePass\KeePass.exe</HintPath>
+      <HintPath Condition="Exists('C:\Program Files\KeePass\KeePass.exe')">C:\Program Files\KeePass\KeePass.exe</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

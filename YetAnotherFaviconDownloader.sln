@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.6.11806.211
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnotherFaviconDownloader", "YAFD\YetAnotherFaviconDownloader.csproj", "{D336CD55-D045-4D90-8398-59F0A7D419BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnotherFaviconDownloader", "YAFD\ABetterFaviconDownloader.csproj", "{D336CD55-D045-4D90-8398-59F0A7D419BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeeTheme", "KeeTheme\KeeTheme\KeeTheme.csproj", "{B82CD066-1BB1-42DB-B75A-F5489EF4A32D}"
 	ProjectSection(ProjectDependencies) = postProject

@@ -126,7 +126,7 @@ namespace YetAnotherFaviconDownloader
                                             // Add a custom header (e.g., for Grabicon/RapidAPI)
                                             fd.SetExtraHeader("Content-Type", "application/json");
                                             fd.SetExtraHeader("x-rapidapi-host", "grabicon.p.rapidapi.com");
-                                            fd.SetExtraHeader("x-rapidapi-key", ""); // TODO: Add RapidAPI key here to use Grabicon as a provider
+                                            fd.SetExtraHeader("x-rapidapi-key", YetAnotherFaviconDownloaderExt.Config.GetRapidAPIKey()); // TODO: UI for setting RapidAPI key to use Grabicon as a provider
                                         }
 
                                         byte[] data = null;

@@ -17,14 +17,20 @@
       <HintPath Condition="Exists('C:\Program Files\KeePass Password Safe 2\KeePass.exe')">C:\Program Files\KeePass Password Safe 2\KeePass.exe</HintPath>
       <HintPath Condition="Exists('C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe')">C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe</HintPath>
       <HintPath Condition="Exists('C:\Program Files\KeePass\KeePass.exe')">C:\Program Files\KeePass\KeePass.exe</HintPath>
-      <Private>True</Private>
+      <Private Condition="'$(Configuration)' == 'Debug'">True</Private>
+      <Private Condition="'$(Configuration)' != 'Debug'">False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="PlgxBuildTasks">
       <Version>1.1.2-beta</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\launchSettings.json">
+      <ExcludeFromPlgx />
+    </None>
   </ItemGroup>
 </Project>

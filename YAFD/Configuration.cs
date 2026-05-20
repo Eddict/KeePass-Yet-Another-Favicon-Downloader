@@ -41,6 +41,12 @@ namespace YetAnotherFaviconDownloader
         private const string downloadProvider = pluginName + "DownloadProvider";
         private string m_downloadProvider = null;
 
+        /// <summary>
+        /// RapidAPI key
+        /// </summary>
+        private const string apiKey = pluginName + "RapidAPIKey";
+        private string m_apiKey = null;
+
         public Configuration(AceCustomConfig aceCustomConfig)
         {
             config = aceCustomConfig;
@@ -125,6 +131,22 @@ namespace YetAnotherFaviconDownloader
         {
             m_downloadProvider = value;
             config.SetString(downloadProvider, value);
+        }
+
+        public string GetRapidAPIKey()
+        {
+            if (string.IsNullOrEmpty(m_apiKey))
+            {
+                m_apiKey = config.GetString(apiKey, "");
+            }
+
+            return m_apiKey;
+        }
+
+        public void SetRapidAPIKey(string value)
+        {
+            m_apiKey = value;
+            config.SetString(apiKey, value);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using KeePass.Plugins;
 using KeePass.Resources;
+using KeePassLib.Interfaces;
 using KeePassLib.Utility;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -26,6 +28,7 @@ namespace YetAnotherFaviconDownloader.UI
             // Providers
             cboProviderList.Items.Clear();
             cboProviderList.Items.AddRange(ProviderList.GetDefaultList());
+            cboProviderList.EnableItemToolTips(item => ((Provider)item).URL);
 
             // Lookup provider on list
             var url = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
@@ -78,8 +81,10 @@ namespace YetAnotherFaviconDownloader.UI
                 chkAccept.Enabled = true;
                 btnSave.Enabled = false;
             }
-
             chkAccept.Checked = false;
+
+            ToolTip comboToolTip = new ToolTip();
+            comboToolTip.SetToolTip(obj, txtProviderURL.Text);
         }
         private void chkAccept_CheckedChanged(object sender, EventArgs e)
         {

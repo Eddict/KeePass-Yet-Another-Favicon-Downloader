@@ -1,4 +1,4 @@
-﻿namespace YetAnotherFaviconDownloader.UI
+﻿namespace ABetterFaviconDownloader.UI
 {
     partial class DownloadProvider
     {

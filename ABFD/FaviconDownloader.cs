@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     [System.ComponentModel.DesignerCategory("")]
     /// <summary>
@@ -237,8 +237,8 @@ namespace YetAnotherFaviconDownloader
             string scheme = baseUri.Scheme;
 
             // Provider settings
-            var providerURL = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
-            var iconSize = YetAnotherFaviconDownloaderExt.Config.GetMaximumIconSize().ToString();
+            var providerURL = ABetterFaviconDownloaderExt.Config.GetDownloadProvider();
+            var iconSize = ABetterFaviconDownloaderExt.Config.GetMaximumIconSize().ToString();
 
             // Follows KeePass placeholders convention
             // https://keepass.info/help/base/placeholders.html
@@ -409,7 +409,7 @@ namespace YetAnotherFaviconDownloader
             if (!httpSchema.IsMatch(url))
             {
                 // If the user doesn't want to add the prefix, there is nothing I can do about
-                if (!YetAnotherFaviconDownloaderExt.Config.GetAutomaticPrefixURLs())
+                if (!ABetterFaviconDownloaderExt.Config.GetAutomaticPrefixURLs())
                 {
                     return false;
                 }
@@ -575,7 +575,7 @@ namespace YetAnotherFaviconDownloader
             //const int MaxHeight = 128;
 
             int MaxWidth, MaxHeight;
-            MaxWidth = MaxHeight = YetAnotherFaviconDownloaderExt.Config.GetMaximumIconSize();
+            MaxWidth = MaxHeight = ABetterFaviconDownloaderExt.Config.GetMaximumIconSize();
 
             Image image;
             try

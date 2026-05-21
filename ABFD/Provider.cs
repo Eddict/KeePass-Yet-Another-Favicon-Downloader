@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     public class Provider
     {

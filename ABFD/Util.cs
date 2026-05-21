@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     public sealed class Util
     {

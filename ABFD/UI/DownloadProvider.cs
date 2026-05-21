@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace YetAnotherFaviconDownloader.UI
+namespace ABetterFaviconDownloader.UI
 {
     public partial class DownloadProvider : Form
     {
@@ -31,7 +31,7 @@ namespace YetAnotherFaviconDownloader.UI
             cboProviderList.EnableItemToolTips(item => ((Provider)item).URL);
 
             // Lookup provider on list
-            var url = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
+            var url = ABetterFaviconDownloaderExt.Config.GetDownloadProvider();
             var provider = ProviderList.FindByURL(url);
             if (provider == null)
             {
@@ -106,7 +106,7 @@ namespace YetAnotherFaviconDownloader.UI
                 ProviderList.SetProviderURL(url);
             }
 
-            YetAnotherFaviconDownloaderExt.Config.SetDownloadProvider(provider.URL);
+            ABetterFaviconDownloaderExt.Config.SetDownloadProvider(provider.URL);
 
             Close();
         }

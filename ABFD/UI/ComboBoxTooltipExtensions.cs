@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace YetAnotherFaviconDownloader.UI
+namespace ABetterFaviconDownloader.UI
 {
     internal static class ComboBoxTooltipExtensions
     {

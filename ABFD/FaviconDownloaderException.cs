@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     public enum FaviconDownloaderExceptionStatus
     {

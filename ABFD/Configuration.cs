@@ -1,6 +1,6 @@
 ﻿using KeePass.App.Configuration;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     public sealed class Configuration
     {
@@ -9,7 +9,7 @@ namespace YetAnotherFaviconDownloader
         /// <summary>
         /// Plugin name used on settings to avoid collisions
         /// </summary>
-        private const string pluginName = "YetAnotherFaviconDownloader.";
+        private const string pluginName = "ABetterFaviconDownloader.";
 
         /// <summary>
         /// Automatic prefix URLs with http(s):// setting (https first, then http)

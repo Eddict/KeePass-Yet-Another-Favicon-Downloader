@@ -8,9 +8,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
-    public sealed class YetAnotherFaviconDownloaderExt : Plugin
+    public sealed class ABetterFaviconDownloaderExt : Plugin
     {
         // Public RSA Key (4096 bits)
         private static readonly string UpdateKey =
@@ -88,7 +88,7 @@ namespace YetAnotherFaviconDownloader
 
             // Add Entry Context menu items
             entrySeparator = new ToolStripSeparator();
-            var providerUrl = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
+            var providerUrl = ABetterFaviconDownloaderExt.Config.GetDownloadProvider();
             var providerName = ProviderList.GetProviderNameByUrl(providerUrl);
             entryDownloadFaviconsItem = new ToolStripMenuItem(string.Format("Download &Favicons [{0}]", providerName),menuImage,DownloadFaviconsEntry_Click);
             pluginHost.MainWindow.EntryContextMenu.Items.Add(entrySeparator);

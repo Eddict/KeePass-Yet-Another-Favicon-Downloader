@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
-using YetAnotherFaviconDownloader.UI;
+using ABetterFaviconDownloader.UI;
 
-namespace YetAnotherFaviconDownloader
+namespace ABetterFaviconDownloader
 {
     public sealed class FaviconDialog
     {
@@ -78,7 +78,7 @@ namespace YetAnotherFaviconDownloader
             // Set up proxy information for all WebClients
             FaviconDownloader.Proxy = Util.GetKeePassProxy();
 
-            var providerURL = YetAnotherFaviconDownloaderExt.Config.GetDownloadProvider();
+            var providerURL = ABetterFaviconDownloaderExt.Config.GetDownloadProvider();
             using (ManualResetEvent waiter = new ManualResetEvent(false))
             {
                 for (int j = 0; j < entries.Length; j++)
@@ -101,7 +101,7 @@ namespace YetAnotherFaviconDownloader
                             if (url == string.Empty)
                             {
                                 // If the user wants to use the title field, let's give it a try
-                                if (YetAnotherFaviconDownloaderExt.Config.GetUseTitleField())
+                                if (ABetterFaviconDownloaderExt.Config.GetUseTitleField())
                                 {
                                     url = entry.Strings.ReadSafe(PwDefs.TitleField);
                                 }
@@ -126,7 +126,7 @@ namespace YetAnotherFaviconDownloader
                                             // Add a custom header (e.g., for Grabicon/RapidAPI)
                                             fd.SetExtraHeader("Content-Type", "application/json");
                                             fd.SetExtraHeader("x-rapidapi-host", "grabicon.p.rapidapi.com");
-                                            fd.SetExtraHeader("x-rapidapi-key", YetAnotherFaviconDownloaderExt.Config.GetRapidAPIKey()); // TODO: UI for setting RapidAPI key to use Grabicon as a provider
+                                            fd.SetExtraHeader("x-rapidapi-key", ABetterFaviconDownloaderExt.Config.GetRapidAPIKey()); // TODO: UI for setting RapidAPI key to use Grabicon as a provider
                                         }
 
                                         byte[] data = null;
@@ -310,7 +310,7 @@ namespace YetAnotherFaviconDownloader
                 if (entry == null) continue;
 
                 // Save it
-                entry.Touch(YetAnotherFaviconDownloaderExt.Config.GetUpdateLastModified(), false);
+                entry.Touch(ABetterFaviconDownloaderExt.Config.GetUpdateLastModified(), false);
                 setModified = true;
             }
 

@@ -55,7 +55,7 @@ namespace ABetterFaviconDownloader
 
             // Status Progress Form
             Form fStatusDialog;
-            logger = StatusUtil.CreateStatusDialog(pluginHost.MainWindow, out fStatusDialog, "Yet Another Favicon Downloader", "Downloading favicons...", true, false);
+            logger = StatusUtil.CreateStatusDialog(pluginHost.MainWindow, out fStatusDialog, "A Better Favicon Downloader", "Downloading favicons...", true, false);
 
             // Block UI
             pluginHost.MainWindow.UIBlockInteraction(true);

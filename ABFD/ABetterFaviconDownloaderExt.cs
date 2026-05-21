@@ -13,22 +13,24 @@ namespace ABetterFaviconDownloader
     public sealed class ABetterFaviconDownloaderExt : Plugin
     {
         // Public RSA Key (4096 bits)
+        //private static readonly string UpdateKey =
+        //    "<RSAKeyValue><Modulus>yF54V4nhAFE+N7nwcHmKMU3nd+4P7CEq0zpp8w2Wq+sKofN4mw" +
+        //    "5xzC4y7MKj8KjJjlRZboBrwPs3Zgh1SrvJyPMqyHwCORciJj0ws254Ma8IYu4Fw8qMWurdIM" +
+        //    "EEYQB3d5C9+l+9u31VVS1JNfdRsaOAN4kfYbOsAgkIMyun585hyIKdbqsQQDALwRbi8KIQ8i" +
+        //    "AWTuiR1Iz5kf72u4C+Q6l6yNWTclEmvKkZcXH/doN/H1C4FzV6Kc4J3Se1xTYSDV5uhvk+g0" +
+        //    "Hqm9gt9TIJVl31sMoMiQcjAArwnipU1KwB/SpoIUW1IQ53sQVJJdTLlOpu9FAdgjInziIug2" +
+        //    "NcG2rwVQvr3/dbP80Aj1cGjhZgF3LO3hkr2gz/hEPUY0zHt817dWcga1nXvy6GdsotbDEQ+7" +
+        //    "T7MGLgIWHfXZW+WcGfXgtbSPr+xHJXOMPoJ0ZSdHKyZU2m2WwX0NFJ7wc3xRyigLaFe9OZxe" +
+        //    "TT1HzOfymtc9YJs0qw7wkDWdZZwSWPLhytEAG2SQAkVy/vp4jP8SqSDojeCCI/QGOxXPujBw" +
+        //    "ZNlWGBunuSxuaCR/Vlx4vrlYr7lw7mFfQSjkSim7yUxoesJrYWWwjf/n6RBalOVy/REh4CTM" +
+        //    "6wZMd7Ux9lXI89ml1tebjhAZ+GCk3QLS0wNxB9btbffDgWhAfHs7WKUk0=</Modulus><Exp" +
+        //    "onent>AQAB</Exponent></RSAKeyValue>";
         private static readonly string UpdateKey =
-            "<RSAKeyValue><Modulus>yF54V4nhAFE+N7nwcHmKMU3nd+4P7CEq0zpp8w2Wq+sKofN4mw" +
-            "5xzC4y7MKj8KjJjlRZboBrwPs3Zgh1SrvJyPMqyHwCORciJj0ws254Ma8IYu4Fw8qMWurdIM" +
-            "EEYQB3d5C9+l+9u31VVS1JNfdRsaOAN4kfYbOsAgkIMyun585hyIKdbqsQQDALwRbi8KIQ8i" +
-            "AWTuiR1Iz5kf72u4C+Q6l6yNWTclEmvKkZcXH/doN/H1C4FzV6Kc4J3Se1xTYSDV5uhvk+g0" +
-            "Hqm9gt9TIJVl31sMoMiQcjAArwnipU1KwB/SpoIUW1IQ53sQVJJdTLlOpu9FAdgjInziIug2" +
-            "NcG2rwVQvr3/dbP80Aj1cGjhZgF3LO3hkr2gz/hEPUY0zHt817dWcga1nXvy6GdsotbDEQ+7" +
-            "T7MGLgIWHfXZW+WcGfXgtbSPr+xHJXOMPoJ0ZSdHKyZU2m2WwX0NFJ7wc3xRyigLaFe9OZxe" +
-            "TT1HzOfymtc9YJs0qw7wkDWdZZwSWPLhytEAG2SQAkVy/vp4jP8SqSDojeCCI/QGOxXPujBw" +
-            "ZNlWGBunuSxuaCR/Vlx4vrlYr7lw7mFfQSjkSim7yUxoesJrYWWwjf/n6RBalOVy/REh4CTM" +
-            "6wZMd7Ux9lXI89ml1tebjhAZ+GCk3QLS0wNxB9btbffDgWhAfHs7WKUk0=</Modulus><Exp" +
-            "onent>AQAB</Exponent></RSAKeyValue>";
+            "<RSAKeyValue><Modulus>3p3zd923HxfjTbhwMV125CmnhUMDNzlxIuwY4TrV84++/Kv0O46cJdXdKhx1zXl9zsQnbJ+RJnvaCWoQZev1q5aJqzvVTF9okpzhSXCWHWJIAwJx+TP6Vp6D9ilkAkrrdmfKXacsL0EzS23seJ+fbkmjyqN9SrPdPaZJCfI3rZNwMNNPnFvEB6DFuc+FDFrgwIrsFqzEWcwVFrncudiuLQFN1l0bQxwYxIwMK2VGF1qSc+ch6B9wW7XJ2qIwXExgP/09jGkmGmCiKYAePDK3LHtZjPMtK9DL5Rmk7NcEOfX8jVHw82xzqgBy/E9iflnS0ESAfHVofl1CNmNZ3JwOSCMb30FdagsYS1xXuSXquUT6DsQdrfMmjeTtRqEQWIdYC0lZtESSLO2ZCWaZuPGdtdR0+VKuX7YM4nQRxjdfwX96Onpd2ioCZgs7jgqKynHgzbVyXXfjv9+xxEH9gUYpprYUManIKSIBaPVD/Vg9+H9akbGqIglU3hf1bt/H6LM9hC2LMmPjTcqI712mqAZyiJ4ywMD9M1DfsTWETEwhwL9ULwyf1C6crWobrcQV58LvRl/vDMEur7kEA04VzNcjIqupa97Cw3WprKT9BA2lU1CCx488LUce1bZmRFD0rAVQetzlTCT5RI4k/Is6fwyf9i/THkXNL9qWwTGmSZvF/tsCAwEAAQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
         public override string UpdateUrl
         {
-            get { return "https://github.com/navossoc/KeePass-Yet-Another-Favicon-Downloader/raw/master/VERSION"; }
+            get { return "https://github.com/Eddict/KeePass-Yet-Another-Favicon-Downloader/raw/rename-yafd-abfd/VERSION"; }
         }
 
         // Custom settings
@@ -162,7 +164,7 @@ namespace ABetterFaviconDownloader
                 new ToolStripMenuItem("Reset Icons", null, ResetIconsMenu_Click)
 #endif
             };
-            toolsMenuYAFD = new ToolStripMenuItem("Yet Another Favicon Downloader", menuImage, toolsMenuDropDownItems);
+            toolsMenuYAFD = new ToolStripMenuItem("A Better Favicon Downloader", menuImage, toolsMenuDropDownItems);
 
             pluginHost.MainWindow.ToolsMenu.DropDownItems.Add(toolsMenuSeparator);
             pluginHost.MainWindow.ToolsMenu.DropDownItems.Add(toolsMenuYAFD);

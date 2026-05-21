@@ -10,6 +10,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeeTheme", "KeeTheme\KeeThe
 		{D336CD55-D045-4D90-8398-59F0A7D419BB} = {D336CD55-D045-4D90-8398-59F0A7D419BB}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Miscellaneous", "Miscellaneous", "{8C866CAE-F9F6-428C-87C8-44E713ADA92E}"
+	ProjectSection(SolutionItems) = preProject
+		plgx-sign-version.linq = plgx-sign-version.linq
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
